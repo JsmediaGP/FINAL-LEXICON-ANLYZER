@@ -12,7 +12,7 @@
 
 <body>
     <div class="container">
-        <form action="" method="post">
+        <form action="engine" method="post">
             <div> 
                 <h1 style="text-align: center"> LEXICON ANALYZER </h1>   
             </div>
