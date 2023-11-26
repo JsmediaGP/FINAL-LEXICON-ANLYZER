@@ -1,0 +1,65 @@
+/* index.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+form {
+    width: 70%;
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    width: 48%;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.btn {
+    background-color: #4caf50;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #45a049;
+}
+
+.login-link {
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* Add more styling as needed */
