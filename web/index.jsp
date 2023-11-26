@@ -14,7 +14,7 @@
     <div class="container">
         <form action="engine" method="post">
             <div> 
-                <h1 style="text-align: center"> LEXICON ANALYZER </h1>   
+                <h1 style="text-align: center; color: green"> LEXICON ANALYZER </h1>   
             </div>
             <br>
             <div class="form-row">
@@ -62,13 +62,15 @@
                 <div class="form-group">
                     <br>
                     <label for="Read COmment">Project Description</label>
-                    <p> This is a LExicon ANalyzer Backus-Naur</p>
+                    <p> Design and implement a lexicon analyser technique of Back Naur Form</p>
+                    <!--<p> Your system should receive input from the user, such as LastName, FirstName, OtherName, address, email address, password and comment.</p>-->
+                    <p>You should implement this using Java programming language. Your program should check each of the words/lexicons entered into the input boxes to be sure that they are not scripts of either javascript or SQL queries. Your program should be designed in such a way that it flags any of such if found. Otherwise, this should be allowed to be stored in a MySQL database created.</p>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group">
-                    <button type="submit" class="btn">Register</button>
+                    <button type="submit" class="btn" style="height:50px; width:50px">Analyze/Register</button>
                 </div>
             </div>
 

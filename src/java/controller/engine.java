@@ -75,8 +75,10 @@ public class engine extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String saveMessage="";
-        //Accepting user input here
+        
+        String saveMessage = "";
+        
+        
         String lastName = request.getParameter("lastName");
         String firstName = request.getParameter("firstName");
         String otherName = request.getParameter("otherName");
@@ -84,65 +86,92 @@ public class engine extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String comment = request.getParameter("comment");
-        
-        
-        //check each field witht the SQL Injection Analyzer 
-        String lastNameSqlRank = LexiconAnalyzer.analyzeInjection("lastName");
-        String firstNameSqlRank = LexiconAnalyzer.analyzeInjection("firstName");
-        String otherNameSqlRank = LexiconAnalyzer.analyzeInjection("otherName");
-        String addressSqlRank = LexiconAnalyzer.analyzeInjection("address");
-        String emailSqlRank = LexiconAnalyzer.analyzeInjection("email");
-        String passwordSqlRank = LexiconAnalyzer.analyzeInjection("password");
-        String commentSqlRank = LexiconAnalyzer.analyzeInjection("comment");
-        
-        //checl fields with the Javasript Injection Analyzer
-        String lastNameJsRank = LexiconAnalyzer.analyzeJavaScriptInjection("lastName");
-        String firstNameJsRank = LexiconAnalyzer.analyzeJavaScriptInjection("firstName");
-        String otherNameJsRank = LexiconAnalyzer.analyzeJavaScriptInjection("othertName");
-        String addressJsRank = LexiconAnalyzer.analyzeJavaScriptInjection("address");
-        String emailJsRank = LexiconAnalyzer.analyzeJavaScriptInjection("email");
-        String passwordJsRank = LexiconAnalyzer.analyzeJavaScriptInjection("password");
-        String commentJsRank = LexiconAnalyzer.analyzeJavaScriptInjection("comment");
-        
-        // Compare SQL and JavaScript rankings for each field to give final ranking field
+
+        String lastNameSqlRank = LexiconAnalyzer.analyzeInjection(lastName);
+        String firstNameSqlRank = LexiconAnalyzer.analyzeInjection(firstName);
+        String otherNameSqlRank = LexiconAnalyzer.analyzeInjection(otherName);
+        String addressSqlRank = LexiconAnalyzer.analyzeInjection(address);
+        String emailSqlRank = LexiconAnalyzer.analyzeInjection(email);
+        String passwordSqlRank = LexiconAnalyzer.analyzeInjection(password);
+        String commentSqlRank = LexiconAnalyzer.analyzeInjection(comment);
+
+        String lastNameJsRank = LexiconAnalyzer.analyzeJavaScriptInjection(lastName);
+        String firstNameJsRank = LexiconAnalyzer.analyzeJavaScriptInjection(firstName);
+        String otherNameJsRank = LexiconAnalyzer.analyzeJavaScriptInjection(otherName);
+        String addressJsRank = LexiconAnalyzer.analyzeJavaScriptInjection(address);
+        String emailJsRank = LexiconAnalyzer.analyzeJavaScriptInjection(email);
+        String passwordJsRank = LexiconAnalyzer.analyzeJavaScriptInjection(password);
+        String commentJsRank = LexiconAnalyzer.analyzeJavaScriptInjection(comment);
+
         String lastNameFinalRank = Rank.compareRanks(lastNameSqlRank, lastNameJsRank);
-        String firstNameFinalRank =Rank.compareRanks(firstNameSqlRank, firstNameJsRank);
-        String otherNameFinalRank =Rank.compareRanks(otherNameSqlRank, otherNameJsRank);
-        String addressFinalRank =Rank.compareRanks(addressSqlRank, addressJsRank);
-        String emailFinalRank =Rank.compareRanks(emailSqlRank, emailJsRank);
-        String passwordFinalRank =Rank.compareRanks(passwordSqlRank, passwordJsRank);
-        String commentFinalRank =Rank.compareRanks(commentSqlRank, commentJsRank);
-        
-        // Calculate the overall ranking for SQL injections
+        String firstNameFinalRank = Rank.compareRanks(firstNameSqlRank, firstNameJsRank);
+        String otherNameFinalRank = Rank.compareRanks(otherNameSqlRank, otherNameJsRank);
+        String addressFinalRank = Rank.compareRanks(addressSqlRank, addressJsRank);
+        String emailFinalRank = Rank.compareRanks(emailSqlRank, emailJsRank);
+        String passwordFinalRank = Rank.compareRanks(passwordSqlRank, passwordJsRank);
+        String commentFinalRank = Rank.compareRanks(commentSqlRank, commentJsRank);
+
         int lowRankThreshold = LexiconAnalyzer.getLowRankThreshold();
         String overallRankingSql = Rank.calculateOverallRanking(
             lowRankThreshold, lastNameSqlRank, firstNameSqlRank, otherNameSqlRank,
-                addressSqlRank, emailSqlRank,passwordSqlRank,commentSqlRank
+            addressSqlRank, emailSqlRank, passwordSqlRank, commentSqlRank
         );
 
-        // Calculate the overall ranking for JavaScript injections
-        String overallRankingJs = Rank.calculateOverallRanking(lowRankThreshold, lastNameJsRank, 
-                firstNameJsRank, otherNameJsRank,addressJsRank, emailJsRank,
-                passwordJsRank,commentJsRank
+        String overallRankingJs = Rank.calculateOverallRanking(
+            lowRankThreshold, lastNameJsRank, firstNameJsRank, otherNameJsRank,
+            addressJsRank, emailJsRank, passwordJsRank, commentJsRank
         );
-        
-        // Calculate the overall ranking based on SQL and JavaScript comparisons
-        String overallRanking = Rank.calculateOverallRankingSQLJs(lastNameFinalRank, 
-                firstNameFinalRank, emailFinalRank, commentFinalRank);
-        
-        //TIME TO CHECK AND SAVE TO DATABASE IF AND ONLY IF OVERALL RANKING IS LOW
-        if(overallRanking.equals("low") ){
+
+        String overallRanking = Rank.calculateOverallRankingSQLJs(
+            lastNameFinalRank, firstNameFinalRank, otherNameFinalRank,
+            addressFinalRank, emailFinalRank, passwordFinalRank, commentFinalRank
+        );
+
+        if (overallRanking.equals("low")) {
             Database.saveToDatabase(lastName, firstName, otherName, address, email, password, comment);
             saveMessage = "Data saved successfully!";
-        }else{
+        } else {
             saveMessage = "Data rejected - Data might contain harmful Javascript or SQL Query!";
         }
-        
-        //Time to process the display attribute
 
-        
-        
-        
+        request.setAttribute("lastName", lastName);
+        request.setAttribute("firstName", firstName);
+        request.setAttribute("otherName", otherName);
+        request.setAttribute("address", address);
+        request.setAttribute("email", email);
+        request.setAttribute("password", password);
+        request.setAttribute("comment", comment);
+
+        request.setAttribute("lastNameSqlRank", lastNameSqlRank);
+        request.setAttribute("firstNameSqlRank", firstNameSqlRank);
+        request.setAttribute("otherNameSqlRank", otherNameSqlRank);
+        request.setAttribute("addressSqlRank", addressSqlRank);
+        request.setAttribute("emailSqlRank", emailSqlRank);
+        request.setAttribute("passwordSqlRank", passwordSqlRank);
+        request.setAttribute("commentSqlRank", commentSqlRank);
+
+        request.setAttribute("lastNameJsRank", lastNameJsRank);
+        request.setAttribute("firstNameJsRank", firstNameJsRank);
+        request.setAttribute("otherNameJsRank", otherNameJsRank);
+        request.setAttribute("addressJsRank", addressJsRank);
+        request.setAttribute("emailJsRank", emailJsRank);
+        request.setAttribute("passwordJsRank", passwordJsRank);
+        request.setAttribute("commentJsRank", commentJsRank);
+
+        request.setAttribute("lastNameFinalRank", lastNameFinalRank);
+        request.setAttribute("firstNameFinalRank", firstNameFinalRank);
+        request.setAttribute("otherNameFinalRank", otherNameFinalRank);
+        request.setAttribute("addressFinalRank", addressFinalRank);
+        request.setAttribute("emailFinalRank", emailFinalRank);
+        request.setAttribute("passwordFinalRank", passwordFinalRank);
+        request.setAttribute("commentFinalRank", commentFinalRank);
+
+        request.setAttribute("overallRankingSql", overallRankingSql);
+        request.setAttribute("overallRankingJs", overallRankingJs);
+        request.setAttribute("overallRanking", overallRanking);
+        request.setAttribute("saveMessage", saveMessage);
+
+        request.getRequestDispatcher("/result.jsp").forward(request, response);
     }
     
     

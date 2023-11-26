@@ -14,21 +14,21 @@ import java.sql.SQLException;
  * @author Js'Media
  */
 public class Database {
-    
-   public static boolean saveToDatabase(String lastName, String firstName, String otherName, String address, String email, String password, String comment) {
+    public static boolean saveToDatabase(String lastName, String firstName, String otherName, String address, String email, String password, String comment) {
         String jdbcUrl = "jdbc:mysql://localhost:3306/finalproject";
         String jdbcUsername = "root";
         String jdbcPassword = "";
+        Connection connection = null;
 
         try {
             // Load the JDBC driver
             Class.forName("com.mysql.cj.jdbc.Driver");
 
             // Establish the database connection
-            Connection connection = DriverManager.getConnection(jdbcUrl, jdbcUsername, jdbcPassword);
+            connection = DriverManager.getConnection(jdbcUrl, jdbcUsername, jdbcPassword);
 
             // Create and execute the SQL query
-            String sql = "INSERT INTO lexicon (lastname, firstname, othername, address, email, password, comment) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO lexicon (lastname, firstname, othername, address, email, password, comment) VALUES (?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, lastName);
                 preparedStatement.setString(2, firstName);
@@ -40,14 +40,20 @@ public class Database {
 
                 int rowsAffected = preparedStatement.executeUpdate();
 
-                // Close the connection
-                connection.close();
-
                 // Return true if at least one row is affected (data saved successfully)
                 return rowsAffected > 0;
             }
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
+        } finally {
+            // Close the connection in a finally block
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         return false;

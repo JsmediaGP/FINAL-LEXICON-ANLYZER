@@ -1,36 +1,48 @@
-/*
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
-*/
-/* 
-    Created on : Nov 26, 2023, 11:37:42 AM
-    Author     : Js'Media
-*/
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
 
-/* styles.css */
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+}
 
-/* Style for the rankings table */
-.ranking-table {
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
 }
 
-.ranking-table th, .ranking-table td {
+thead {
+    background-color: #f2f2f2;
+}
+
+th, td {
+    padding: 10px;
     border: 1px solid #ddd;
-    padding: 8px;
     text-align: left;
 }
 
-.ranking-table th {
-    background-color: #4caf50; /* Header background color */
-    color: #fff; /* Header text color */
+th {
+    font-weight: bold;
 }
 
-.ranking-table tr:nth-child(even) {
-    background-color: #f9f9f9; /* Even row background color */
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
 }
 
-.ranking-table tr:hover {
-    background-color: #f1f1f1; /* Hover row background color */
+.overall-ranking {
+    margin-top: 20px;
+    text-align: center;
+}
+
+h3 {
+    color: #333;
 }

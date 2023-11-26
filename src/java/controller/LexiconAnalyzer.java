@@ -17,7 +17,7 @@ public class LexiconAnalyzer {
     private static final int SQL_HIGH_RANK_THRESHOLD = 3;
     private static final int JS_HIGH_RANK_THRESHOLD = 2;
     private static final int LOW_RANK_THRESHOLD = 1;
-    private static final int JS_LOW_RANK_THRESHOLD = 1;  // Add this threshold for JavaScript
+    private static final int JS_LOW_RANK_THRESHOLD = 1;
 
     public static String analyzeInjection(String input) {
         int sqlStatementCount = countMatches(input, getSqlInjectionPattern());
